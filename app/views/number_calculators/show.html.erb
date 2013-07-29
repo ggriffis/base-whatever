@@ -1,0 +1,18 @@
+<div>
+  <h2>Number Calculation Result</h2>
+  <p>
+    <b>Number system base:</b>
+    <%= @number_calculator.base %>
+  </p>
+
+  <p>
+    <b><%= "Number as represented in base " + @number_calculator.base.to_s + " system:" %></b>
+    <%= @number_calculator.number %>
+  </p>
+
+  <p>
+    <h2>This number in our familiar base 10 system is: <%= @number_calculator.result %></h2>
+  </p>
+</div>
+
+<%= link_to 'Calculate Another Number', new_number_calculator_path %> |

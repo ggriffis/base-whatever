@@ -1,0 +1,12 @@
+<%= form_for @number_calculator do |f| %>
+  <div class="container">
+    <p>
+      <%= f.label :base, "Enter the base of the numbering system:" %><br>
+      <%= f.text_field :base %>
+    </p>
+    <p>
+      <%= f.label :number, "Enter the number as represented in the system you are using:" %><br>
+      <%= f.text_field :number %>
+    </p>
+  <%= f.submit "Calculate Base 10 Equivalent" %>
+<% end %>
