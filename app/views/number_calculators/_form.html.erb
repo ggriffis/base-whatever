@@ -1,12 +1,21 @@
-<%= form_for @number_calculator do |f| %>
+<%= form_for @number_calculator, :url => {:action => "convert",
+      :id => @number_calculator} do |f| %>
+  <% @number_calculator.errors.full_messages.each do |msg| %>
+    <%= content_tag :li, msg, :id => "error_#{msg}" if msg.is_a?(String) %>
+  <% end %>
   <div class="container">
     <p>
-      <%= f.label :base, "Enter the base of the numbering system:" %><br>
-      <%= f.text_field :base %>
+      <%= f.label :base, "Base Whatever:" %><br>
+      <%= f.text_field :base, :size => 76, :placeholder => "Enter the base of the numbering system that you are interested in" %>
     </p>
     <p>
-      <%= f.label :number, "Enter the number as represented in the system you are using:" %><br>
-      <%= f.text_field :number %>
+      <%= f.label :number, "Base Whatever Representation" %><br>
+      <%= f.text_field :number, :size => 76, :placeholder =>"Enter the number as represented in whatever base you are interested in" %>
     </p>
-  <%= f.submit "Calculate Base 10 Equivalent" %>
+    <p>
+      <%= f.label :base_ten_number, "Base 10 Representation" %><br>
+      <%= f.text_field :base_ten_number, :size => 76 , :placeholder =>"Enter the number as represented in whatever base you are interested in" %>
+    </p>
+  <%= f.submit "Convert" %>
+  <%= f.submit "Refresh" %>
 <% end %>

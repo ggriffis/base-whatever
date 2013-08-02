@@ -1,17 +1,28 @@
 class NumberCalculatorsController < ApplicationController
 
   def new
-    @number_calculator = NumberCalculator.new
+    self.refresh
   end
 
-  def create
-    @number_calculator = NumberCalculator.new(number_calculator_params)
-    @number_calculator.calculate
-    if @number_calculator.save
-      redirect_to @number_calculator
+  def convert
+    if params[:commit] == 'Refresh'
+      self.refresh
+      return render :action => "new"
+    end
+    if NumberCalculator.exists?(params[:id])
+      @number_calculator = NumberCalculator.find(params[:id])
+      if !@number_calculator.update_attributes(number_calculator_params)
+        return render :action => "new"
+      end
     else
-      flash[:alert] = "Parameters were invalid. Please enter again"
-      render :action => "new"
+      @number_calculator = NumberCalculator.new(number_calculator_params)
+    end
+    if @number_calculator.save
+      @number_calculator.calculate
+      @number_calculator.save
+      return redirect_to @number_calculator
+    else
+      return render :action => "new"
     end
   end
 
@@ -19,8 +30,14 @@ class NumberCalculatorsController < ApplicationController
     @number_calculator = NumberCalculator.find(params[:id])
   end
 
-private
+protected
   def number_calculator_params
-    params.require(:number_calculator).permit(:base, :number)
+    params.require(:number_calculator).permit(:base, :number, :base_ten_number)
   end
+
+  def refresh
+    NumberCalculator.all.delete_all
+    @number_calculator = NumberCalculator.new
+  end
+
 end

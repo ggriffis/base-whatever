@@ -2,6 +2,8 @@ BaseWhateverNumberTranslator::Application.routes.draw do
 
   resources :number_calculators
   root :to => "number_calculators#new"
+  post '/convert', to: 'number_calculators#convert'
+  patch '/convert', to: 'number_calculators#convert'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

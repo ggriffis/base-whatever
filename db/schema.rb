@@ -11,12 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130729015446) do
+ActiveRecord::Schema.define(version: 20130801193357) do
 
   create_table "number_calculators", force: true do |t|
     t.string  "number"
     t.integer "base"
-    t.string  "result"
+    t.string  "base_ten_number"
   end
 
 end

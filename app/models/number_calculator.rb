@@ -1,4 +1,30 @@
+class NumberValidator < ActiveModel::Validator
+  def validate(record)
+    if record.base.nil?
+      record.errors.add(:base,
+        "You must enter a base for the number system")
+      return false
+    end
+    if record.base > 37
+      record.errors.add(:base,
+        "Sorry, we only calculate up to 37 base numbering systems at this time")
+      return false
+    end
+
+    record.number.each_char do |digit|
+      if record.number_for_digit(digit) >= record.base
+      record.errors.add(:number,
+        "The number entered contains digits larger than or equal to the base, which is not valid")
+        return false
+      end
+    end
+  end
+end
+
 class NumberCalculator < ActiveRecord::Base
+  include ActiveModel::Validations
+  validates_with NumberValidator
+
   def calculate
     self.format_number
     if self.valid_input?
@@ -8,27 +34,20 @@ class NumberCalculator < ActiveRecord::Base
         sum = sum + ((self.base**power) * self.number_for_digit(digit))
         power += 1
       end
-      self.result = sum.to_s
+      self.base_ten_number = sum.to_s
     end
-    return result
   end
 
-protected
   def valid_input?
     if self.base.nil?
-      self.result = "You must enter a base for the number system"
       return false
     end
     if self.base > 37
-      self.result = "Sorry, we only calculate up to 37 base numbering " +
-                    "systems at this time"
       return false
     end
 
     self.number.each_char do |digit|
       if self.number_for_digit(digit) >= self.base
-        self.result = "The number entered contains digits larger than or" +
-                      " equal to the base, which is not valid"
         return false
       end
     end
@@ -41,7 +60,7 @@ protected
 
   def number_for_digit(digit)
     i = self.alpha_array.index(digit)
-    return (i.nil? ? digit.to_i : i)
+    return (i.nil? ? digit.to_i : 10 + i)
   end
 
   def alpha_array
