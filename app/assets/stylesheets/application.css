@@ -36,7 +36,6 @@ color: mediumpurple;
 .background {
   background-image: url("background.jpg");
   background-size: cover;
-  background-color: darkseagreen;
 }
 .error-text{
   color: crimson;
