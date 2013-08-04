@@ -26,7 +26,37 @@ class NumberCalculator < ActiveRecord::Base
   validates_with NumberValidator
 
   def calculate
-    self.format_number
+    if self.number.empty?
+      self.calculate_from_base_ten
+    else
+      self.calculate_to_base_ten
+    end
+  end
+
+  def number_for_digit(digit)
+    i = self.alpha_array.index(digit)
+    return (i.nil? ? digit.to_i : 10 + i)
+  end
+
+protected
+
+  def format_number(n)
+    return n.downcase.gsub /\W+/, ''
+  end
+
+  def calculate_from_base_ten
+    self.base_ten_number = self.format_number(self.base_ten_number)
+    quotient = self.base_ten_number.to_i
+    n = ""
+    while quotient > 0
+      n.prepend((quotient % self.base).to_s)
+      quotient = quotient / self.base
+    end
+    self.number = n
+  end
+
+  def calculate_to_base_ten
+    self.number = self.format_number(self.number)
     if self.valid_input?
       power = 0
       sum = 0
@@ -36,6 +66,11 @@ class NumberCalculator < ActiveRecord::Base
       end
       self.base_ten_number = sum.to_s
     end
+  end
+
+  def alpha_array
+    return ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p",
+            "q","r","s","t","u","v","w","x","y","z"]
   end
 
   def valid_input?
@@ -54,17 +89,4 @@ class NumberCalculator < ActiveRecord::Base
     return true
   end
 
-  def format_number
-    self.number = self.number.downcase.gsub /\W+/, ''
-  end
-
-  def number_for_digit(digit)
-    i = self.alpha_array.index(digit)
-    return (i.nil? ? digit.to_i : 10 + i)
-  end
-
-  def alpha_array
-    return ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p",
-            "q","r","s","t","u","v","w","x","y","z"]
-  end
 end
