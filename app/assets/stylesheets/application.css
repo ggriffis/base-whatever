@@ -11,3 +11,24 @@
  *= require_self
  *= require_tree .
  */
+.image {
+  float: right ;
+  padding-right: 30%;
+}
+.whatever {
+color: mediumpurple;
+}
+.convert-button {
+  background: mediumpurple;
+}
+.refresh-button {
+  background: lightgoldenrodyellow;
+}
+.background {
+  background-image: url("background.jpg");
+  background-size: cover;
+  background-color: darkseagreen;
+}
+.error-text{
+  color: crimson;
+}

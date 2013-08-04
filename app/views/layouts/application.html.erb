@@ -6,8 +6,10 @@
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
 </head>
-<body>
-
+<body class="background">
+<h3>Base <span class="whatever">Whatever</span> Number Converter</h3>
+<p> Enter the Base and either number and it will be converted to either base 10 or <span class="whatever">whatever</span> base you have chosen accordingly </p>
+<%= image_tag "numbers_duh.jpg", :class => "image" %>
 <% flash.each do |key, value| %>
   <div class='flash' id='<%= key %>'>
     <%= value %>
