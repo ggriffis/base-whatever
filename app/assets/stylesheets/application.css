@@ -12,8 +12,17 @@
  *= require_tree .
  */
 .image {
-  float: right ;
+  padding-bottom:0.5em
+  width:400;
+  float:right;
   padding-right: 30%;
+}
+.image p {
+  text-align: center;
+  font-style: italic;
+  font-size: smaller;
+  text-indent: 0;
+  color: indigo;
 }
 .whatever {
 color: mediumpurple;
